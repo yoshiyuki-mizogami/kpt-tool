@@ -3,12 +3,13 @@ let targetMemoList = null
 
 const Area = {
     template: '#areaTemplate',
-    props: ['memos', 'className', 'limit', 'char'],
+    props: ['memos', 'className', 'limit', 'char', 'complete'],
     data() {
         return {
             editorVisible: false,
             editTarget: null,
             orgData:'',
+            draw:false
         }
     },
     filters: {
@@ -60,6 +61,10 @@ const Area = {
         },
 
         addMemo() {
+            if(this.complete){
+                this.draw = true
+                return
+            }
             if (this.limit <= this.memos.length) {
                 return
             }

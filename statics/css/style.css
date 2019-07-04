@@ -1,6 +1,8 @@
 html,
 body {
     overflow: hidden;
+    background-image:url(../img/wall.jpg);
+    background-size:cover;
 }
 *{
     outline: none;
@@ -31,7 +33,22 @@ section {
     flex-wrap: wrap;
 }
 
+.memo::before,.memoEditor::before{
+    display:block;
+    position:absolute;
+    top:5px;
+    left:5px;
+    content:'';
+    width:15px;
+    height:15px;
+    margin-left:-8px;
+    transform:translateY(-5px);
+    background-color:white;
+    box-shadow:2px 3px 0px grey, -2px -1px 10px red inset;
+    border-radius:100%;
+}
 .memo {
+    text-indent:10px;
     background-image: url(../img/memo.png);
     background-size: cover;
     font-size: 1rem;
@@ -42,8 +59,11 @@ section {
     box-shadow: 2px 0 2px gray;
     position: relative;
     overflow: hiiden;
-    word-wrap=:
-    break:break -word;
+    word-wrap:break-word;
+    transition:transform .2s linear;
+}
+.memo:hover{
+    transform:scale(1.1);
 }
 
 .karea .memo , .karea .memoEditor{
@@ -80,7 +100,22 @@ section {
     border: solid 3px skyblue;
     height: 100vh;
 }
-
+.carea{
+    position:fixed;
+    top:0;
+    left:100vw;
+    width:50vw;
+    height:100%;
+    background-color:white;
+    overflow-y:scroll;
+    border:solid 3px gray;
+}
+.carea.draw{
+    left:50vw;
+}
+.cBtn{
+    float:right;
+}
 .removeBtn {
     position: absolute;
     top: 0;
@@ -124,6 +159,7 @@ section {
 }
 
 .memoTitle{
+    text-indent:10px;
     width: 100%;
 }
 

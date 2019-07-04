@@ -7,6 +7,7 @@ new Vue({
                 kMemos: [],
                 pMemos: [],
                 tMemos: [],
+                cMemos: [],
                 message: '',
                 notificationVisible: false,
                 MEMO_LIMIT,
@@ -16,9 +17,10 @@ new Vue({
             async created() {
                 const response = await fetch('https://test-new.anicom-sompo.co.jp/__tools/json-store/?key=taguchi')
                     .then(r => r.json())
-                this.kMemos = response.kMemos
-                this.pMemos = response.pMemos
-                this.tMemos = response.tMemos
+                this.kMemos = response.kMemos || []
+                this.pMemos = response.pMemos || []
+                this.tMemos = response.tMemos || []
+                this.cMemos = response.cMemos || []
             },
             components: {
                 MyArea: Area
@@ -30,7 +32,8 @@ new Vue({
                         body: JSON.stringify({
                             kMemos: this.kMemos,
                             pMemos: this.pMemos,
-                            tMemos: this.tMemos
+                            tMemos: this.tMemos,
+                            cMemos: this.cMemos
                         })
                     }).then(r => r.json())
                     this.notify('save')

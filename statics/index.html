@@ -17,14 +17,15 @@
             <my-area class-name="karea" :memos="kMemos" char="K" :limit="MEMO_LIMIT"></my-area>
             <my-area class-name="parea" :memos="pMemos" char="P" :limit="18"></my-area>
         </div>
-        <my-area class-name="tarea" :memos="tMemos" char="T" :limit="36"></my-area>
+        <my-area class-name="tarea" :memos="tMemos" char="T" :limit="36"><span class="cBtn">C</span></my-area>
         <transition name="notify">
             <div v-if="notificationVisible" class="notifycation">{{message}}</div>
         </transition>
+        <my-area class-name="carea" :memos="cMemos" char="C" :limit="0" :complete="true"></my-area>
     </div>
     <div id="areaTemplate">
         <section :class="className" @drop="dropMemo">
-            <span @click="addMemo" @selectstart.prevent>{{char}}</span>
+            <span @click="addMemo" @selectstart.prevent>{{char}}</span><slot></slot>
             <div class="memos">
                 <div class="memo" draggable="true" v-for="m in memos" @click="showEditor(m)" @dragstart="dragStart(m)">
                     <button class="removeBtn" @click.stop="removeMemo(m)">×</button>
