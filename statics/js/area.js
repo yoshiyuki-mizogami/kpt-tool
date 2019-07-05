@@ -82,7 +82,7 @@ const Area = {
       this.memos.push(newMemo)
       this.showEditor(newMemo)
     },
-    removeMemo(memo) {
+    confirmRemoveMemo(memo) {
       console.log(memo)
       const ok = confirm('削除しますか？')
       if (!ok) {

@@ -28,7 +28,7 @@
             <span @click="addMemo" @selectstart.prevent>{{char}}</span><slot></slot>
             <div class="memos">
                 <div class="memo" draggable="true" v-for="m in memos" @click="showEditor(m)" @dragstart="dragStart(m)">
-                    <button class="removeBtn" @click.stop="removeMemo(m)">×</button>
+                    <button class="removeBtn" @click.stop="confirmRemoveMemo(m)">×</button>
                     {{m.title}}
                 </div>
             </div>
