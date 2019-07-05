@@ -74,7 +74,10 @@ const Area = {
       const newMemo = await fetch(ENDPOINT, {
         method:'POST',
         headers:JSONHEADER,
-        body:JSON.stringify({title})
+        body:JSON.stringify({
+          title,
+          belong:this.char
+        })
       })
       this.memos.push(newMemo)
       this.showEditor(newMemo)
