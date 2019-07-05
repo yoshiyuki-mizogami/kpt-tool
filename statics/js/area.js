@@ -1,17 +1,18 @@
 let targetMemo = null
 let targetMemoList = null
-const JSONHEADER = {'Content-Type':'application/json'}
-const ENDPOINT = '/api/memos/'
 const Area = {
   template: '#areaTemplate',
   props: ['memos', 'className', 'limit', 'char', 'complete'],
   data() {
     return {
       editorVisible: false,
-      editTarget: null,
       orgData:'',
+      covered:true,
       draw:false
     }
+  },
+  created(){
+    evHub.$on('uncover', this.uncover)
   },
   filters: {
     formatDatetime(v) {
@@ -19,45 +20,14 @@ const Area = {
     }
   },
   methods: {
-    moveNextMemo(){
-      let ind = this.memos.indexOf(this.editTarget) + 1
-      if(!this.memos[ind]){
-        return this.$root.notify('最後のメモです')
-      }
-      this.checkUpdate()
-      this.showEditor(this.memos[ind])
+    uncover(){
+      this.covered = false
     },
-    movePreviousMemo(){
-      let ind = this.memos.indexOf(this.editTarget) + -1
-      if(!this.memos[ind]){
-        return this.$root.notify('最初のメモです')
-      }
-      this.checkUpdate()
-      this.showEditor(this.memos[ind]) 
-    },
-    checkUpdate(){
-      const current = JSON.stringify(this.editTarget)
-      if(current !== this.orgData){
-        this.update()
-      }
-    },
-    escape(ev){
-      this.checkUpdate()
-      this.hideEditor()
+    cover(){
+      this.covered = true
     },
     showEditor(memo) {
-      this.editorVisible = true
-      this.editTarget = memo
-      this.orgData = JSON.stringify(this.editTarget)
-      this.$nextTick(()=>{
-        this.$refs.editor.focus()
-      })
-    },
-    hideEditor() {
-      this.editTarget = null
-    },
-    update() {
-      this.saveMemo(this.editTarget)
+      this.$refs.editor.showEditor(memo)
     },
     async addMemo() {
       if(this.complete){
@@ -67,31 +37,23 @@ const Area = {
       if (this.limit <= this.memos.length) {
         return
       }
-      const title = prompt('タイトルを入力してください', 'タイトル')
-      if(!title){
-        return
-      }
-      const newMemo = await fetch(ENDPOINT, {
-        method:'POST',
-        headers:JSONHEADER,
-        body:JSON.stringify({
-          title,
-          belong:this.char
-        })
-      }).then(r=>r.json())
+      const newMemo = await this.$root.addMemo({
+        title:'',
+        belong:this.char
+      })
       this.memos.push(newMemo)
       this.showEditor(newMemo)
     },
     confirmRemoveMemo(memo) {
       console.log(memo)
-      const ok = confirm('削除しますか？')
+      const ok = confirm( (memo.title || 'タイトルなし')+ 'を削除しますか？')
       if (!ok) {
         return
       }
 
       const ind = this.memos.indexOf(memo)
       this.memos.splice(ind, 1)
-      this.removeMemo(memo)
+      this.$root.removeMemo(memo)
     },
     dragStart(dragMemo) {
       targetMemo = dragMemo
@@ -105,22 +67,7 @@ const Area = {
       targetMemoList.splice(ind, 1)
       this.memos.push(targetMemo)
       targetMemo.belong = this.char
-      this.saveMemo(targetMemo)
-    },
-    async saveMemo(m){
-      const updated = await fetch(`${ENDPOINT}${m.id}`,{
-        method:'PUT',
-        headers:JSONHEADER,
-        body:JSON.stringify(m)
-      }).then(r=>r.json())
-      Object.assign(m, updated)
-      this.$parent.notify(`Saved. ${m.title}`)
-    },
-    async removeMemo(m){
-      const res = await fetch(`${ENDPOINT}${m.id}`, {
-        method:'DELETE'
-      }).then(r=>r.json())
-      this.$root.notify('Removed ' + m.title)
+      this.$root.saveMemo(targetMemo)
     }
   }
 }

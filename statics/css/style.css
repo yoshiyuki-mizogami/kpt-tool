@@ -1,211 +1,243 @@
 html,
 body {
-    overflow: hidden;
-    background-image:url(../img/wall.jpg);
-    background-size:cover;
+  overflow: hidden;
+  background-image:url(../img/wall.jpg);
+  background-size:cover;
 }
 *{
-    outline: none;
+  outline: none;
 }
 input[type=text]{
-    border: none;
-    border-bottom:solid 1px;
-    background-color: transparent;
+  border: none;
+  border-bottom:solid 1px;
+  background-color: transparent;
 }
 
 #app {
-    display: flex;
+  display: flex;
 }
 
 div,
 section {
-    box-sizing: border-box;
-    font-size: 2rem;
+  box-sizing: border-box;
+  font-size: 2rem;
 }
 
 .left-pane,
 .tarea {
-    width: 50vw;
+  width: 50vw;
 }
 
 .memos {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .memo::before,.memoEditor::before{
-    display:block;
-    position:absolute;
-    top:5px;
-    left:5px;
-    content:'';
-    width:15px;
-    height:15px;
-    margin-left:-8px;
-    transform:translateY(-5px);
-    background-color:white;
-    box-shadow:2px 3px 0px grey, -2px -1px 10px red inset;
-    border-radius:100%;
+  display:block;
+  position:absolute;
+  top:5px;
+  left:5px;
+  content:'';
+  width:15px;
+  height:15px;
+  margin-left:-8px;
+  transform:translateY(-5px);
+  background-color:white;
+  box-shadow:2px 3px 0px grey, -2px -1px 10px red inset;
+  border-radius:100%;
 }
 .memo {
-    text-indent:10px;
-    background-image: url(../img/memo.png);
-    background-size: cover;
-    font-size: 1rem;
-    padding: 1%;
-    flex-basis: 15%;
-    height: 13vh;
-    margin: 0.5%;
-    box-shadow: 2px 0 2px gray;
-    position: relative;
-    overflow: hiiden;
-    word-wrap:break-word;
-    transition:transform .2s linear;
+  text-indent:10px;
+  background-image: url(../img/memo.png);
+  background-size: cover;
+  font-size: 1rem;
+  padding: 1%;
+  flex-basis: 15%;
+  height: 13vh;
+  margin: 0.5%;
+  box-shadow: 2px 0 2px gray;
+  position: relative;
+  overflow: hiiden;
+  word-wrap:break-word;
+  transition:transform .2s linear;
 }
 .memo:hover{
-    transform:scale(1.1);
+  transform:scale(1.1);
 }
 
 .karea .memo , .karea .memoEditor{
-    background-color: rgb(200, 255, 128);
+  background-color: rgb(200, 255, 128);
 }
 
 .parea .memo , .parea .memoEditor{
-    background-color: rgb(243, 91, 53);
+  background-color: rgb(243, 91, 53);
 }
 
 .tarea .memo , .tarea .memoEditor{
-    background-color: rgb(128, 158, 255);
+  background-color: rgb(128, 158, 255);
+}
+.cover{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:200;
+  width:100%;height:100%;
+  background-color:rgba(0,0,0, 0.1);
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+.cover .spinner{
+  width:100px;
+  height:100px;
+  background-color:white;
+  animation:spin 3s linear 0s infinite;
+}
+@keyframes spin{
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
 }
 
-
 section {
-    position: relative;
+  position: relative;
 }
 
 .karea,
 .parea {
-    height: 50vh;
+  height: 50vh;
 }
 
 .karea {
-    border: solid 3px lightgreen;
+  border: solid 3px lightgreen;
 }
 
 .parea {
-    border: solid 3px lightcoral;
+  border: solid 3px lightcoral;
 }
 
 .tarea {
-    border: solid 3px skyblue;
-    height: 100vh;
+  border: solid 3px skyblue;
+  height: 100vh;
 }
 .carea{
-    position:fixed;
-    top:0;
-    left:100vw;
-    width:50vw;
-    height:100%;
-    background-color:white;
-    overflow-y:scroll;
-    border:solid 3px gray;
+  position:fixed;
+  top:0;
+  left:100vw;
+  width:50vw;
+  height:100%;
+  background-color:white;
+  overflow-y:scroll;
+  border:solid 3px gray;
 }
 .carea.draw{
-    left:50vw;
+  left:50vw;
 }
 .cBtn{
-    float:right;
+  float:right;
 }
 .removeBtn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    background-color: transparent;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: gray;
-    cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: gray;
+  cursor: pointer;
 }
 
 .removeBtn:hover {
-    color: black;
+  color: black;
 }
 
 .saveBtn {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    height: 20px;
-    width: 20px;
-    font-size: 0.5rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 100;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  font-size: 0.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100;
 }
 
 .memoEditor {
-    padding: 1%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-image: url(../img/memo.png);
+  padding: 1%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url(../img/memo.png);
 }
 
 .memoTitle{
-    text-indent:10px;
-    width: 100%;
+  text-indent:10px;
+  width: 100%;
 }
 
 .memoBody{
-    resize: none;
-    height: 70%;
-    width: 100%;
-    font-size: 1.2rem;
-    border: none;
-    background-color: transparent;
+  resize: none;
+  height: 70%;
+  width: 100%;
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
 }
 .memoCharge{
-    display: inline-block;
-    width: 30%;
-    font-size: 1.2rem;
-    vertical-align: top;
+  display: inline-block;
+  width: 30%;
+  font-size: 1.2rem;
+  vertical-align: top;
 }
 
 .dateInfo{
-    color: gray;
-    width: 50%;
-    font-size: 1rem;
-    float: right;
-    text-align: right;
-    margin-right: 5%;
+  color: gray;
+  width: 50%;
+  font-size: 1rem;
+  float: right;
+  text-align: right;
+  margin-right: 5%;
 }
 
 .notifycation{
-    position: fixed;
-    top: 2%;
-    right: 2%;
-    background-color: rgb(30, 198, 228);
-    padding: 5px;
-    box-shadow: 0 3px gray;
-    border-radius: 3px;
+  pointer-events: none;
+  position: fixed;
+  top: 2%;
+  right: 2%;
+  background-color: rgb(30, 198, 228);
+  padding: 5px;
+  box-shadow: 0 3px gray;
+  border-radius: 3px;
 }
 .notify-enter-active,.notify-leave-active{
-    transition:all 0.3s ease;
-    opacity:1;
+  transition:all 0.3s ease;
+  opacity:1;
 }
 
 .notify-enter,.notify-leave-to{
-    opacity:0;
-    transform:translateX(100px);
+  opacity:0;
+  transform:translateX(100px);
 }
 
-#areaTemplate{
-    display:none;
+.fade-enter-active,.fade-leave-active{
+  transition:opacity .1s ease;
+  opacity:1;
+}
+.fade-enter,.fade-leave-to{
+  opacity:0;
+}
+.template{
+  display:none;
 }

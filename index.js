@@ -14,6 +14,11 @@ ex()
     const allMemos = await Memo.findAll()
     res.json(allMemos)
   })
+  .get('/api/memos/:memoId', async(req, res)=>{
+    const targetId = req.params.memoId
+    const targetMemo = await Memo.findByPk(targetId)
+    res.json(targetMemo)
+  })
   .post('/api/memos',async (req, res)=>{
     try{
       const newMemo = await Memo.create(req.body)
