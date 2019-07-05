@@ -16,7 +16,6 @@ ex()
   })
   .post('/api/memos',async (req, res)=>{
     try{
-      console.log(req.body)
       const newMemo = await Memo.create(req.body)
       res.json(newMemo)
     }catch(e){
