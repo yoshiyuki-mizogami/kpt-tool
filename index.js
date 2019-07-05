@@ -12,8 +12,17 @@ ex()
     const allMemos = await Memo.findAll()
     res.json(allMemos)
   })
-  .post('/api/memos', (req, res)=>{
-
+  .post('/api/memos',async (req, res)=>{
+    try{
+      const data = JSON.parse(req.body)
+      const newMemo = await Memo.create(data)
+      res.json(newMemo)
+    }catch(e){
+      res.json({
+        error:e.toString()
+      })
+    }
+    
   })
   .put('/api/memos/:memoId', (req,res)=>{
 
