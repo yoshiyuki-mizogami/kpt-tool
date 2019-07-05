@@ -42,8 +42,15 @@ ex()
     await targetMemo.save()
     res.json(targetMemo)
   })
-  .delete('/api/memos/:memoId', (req, res)=>{
-
+  .delete('/api/memos/:memoId', async (req, res)=>{
+    const id = req.params.memoId
+     await Memo.destroy({
+       where:{id}
+     })
+     res.json({
+       message:'Removed',
+       data:id
+     })
   })
   .listen(PORT, ()=>{
     console.log('start kpt tool server')

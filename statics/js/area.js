@@ -78,11 +78,12 @@ const Area = {
           title,
           belong:this.char
         })
-      })
+      }).then(r=>r.json())
       this.memos.push(newMemo)
       this.showEditor(newMemo)
     },
     removeMemo(memo) {
+      console.log(memo)
       const ok = confirm('削除しますか？')
       if (!ok) {
         return
