@@ -46,7 +46,7 @@
                     @keydown.esc="escape"
                     @keydown.ctrl.left="movePreviousMemo"
                     @keydown.ctrl.right="moveNextMemo">
-                <div class="dateInfo">作成日：<span class="registedAt">{{editTarget.registedAt | formatDatetime}}</span><br>
+                <div class="dateInfo">作成日：<span class="createdAt">{{editTarget.createdAt | formatDatetime}}</span><br>
                     更新日：<span class="updatedAt">{{editTarget.updatedAt| formatDatetime}}</span></div>
             </div>
         </section>

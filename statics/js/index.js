@@ -35,19 +35,7 @@ new Vue({
   components: {
     MyArea: Area
   },
-  methods: {
-    async saveMemos() {
-      const response = await fetch('https://test-new.anicom-sompo.co.jp/__tools/json-store/?key=taguchi', {
-        method: 'POST',
-        body: JSON.stringify({
-          kMemos: this.kMemos,
-          pMemos: this.pMemos,
-          tMemos: this.tMemos,
-          cMemos: this.cMemos
-        })
-      }).then(r => r.json())
-      this.notify('save')
-    },
+  methods:{
     notify(m) {
       clearTimeout(this.ev)
       this.notificationVisible = true

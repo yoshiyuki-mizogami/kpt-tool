@@ -25,8 +25,22 @@ ex()
     }
     
   })
-  .put('/api/memos/:memoId', (req,res)=>{
-
+  .put('/api/memos/:memoId', async (req,res)=>{
+    const targetId = req.params.memoId
+    const rdata = req.body
+    const targetMemo = await Memo.findByPk(targetId)
+    if(!targetMemo){
+      return res.json({
+        error:'target memo id not found',
+        data:rdata
+      })
+    }
+    targetMemo.title = rdata.title
+    targetMemo.body = rdata.body
+    targetMemo.charge = rdata.charge
+    targetMemo.belong = rdata.belong
+    await targetMemo.save()
+    res.json(targetMemo)
   })
   .delete('/api/memos/:memoId', (req, res)=>{
 
