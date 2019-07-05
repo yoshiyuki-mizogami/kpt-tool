@@ -4,6 +4,8 @@ const {join} = require('path')
 const {readFileSync} = require('fs')
 const Memo = require('./lib/memo')
 ex()
+  .use(ex.json())
+  .use(ex.urlencoded({extended:false}))
   .use(ex.static(join(__dirname, 'statics')))
   .get('/',(req, res)=>{
     res.end(readFileSync(join(__dirname, 'statics', 'app', 'index.html'), 'utf8'))
@@ -14,8 +16,8 @@ ex()
   })
   .post('/api/memos',async (req, res)=>{
     try{
-      const data = JSON.parse(req.body)
-      const newMemo = await Memo.create(data)
+      console.log(req.body)
+      const newMemo = await Memo.create(req.body)
       res.json(newMemo)
     }catch(e){
       res.json({
