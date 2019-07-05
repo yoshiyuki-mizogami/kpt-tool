@@ -59,7 +59,7 @@ const Area = {
     update() {
       this.saveMemo(this.editTarget)
     },
-    addMemo() {
+    async addMemo() {
       if(this.complete){
         this.draw = true
         return
@@ -71,13 +71,13 @@ const Area = {
       if(!title){
         return
       }
-      this.memos.push({
-        title,
-        body: '',
-        charge: '',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+      const newMemo = await fetch(ENDPOINT, {
+        method:'POST',
+        headers:JSONHEADER,
+        body:JSON.stringify({title})
       })
+      this.memos.push(newMemo)
+      this.showEditor(newMemo)
     },
     removeMemo(memo) {
       const ok = confirm('削除しますか？')
@@ -87,7 +87,7 @@ const Area = {
 
       const ind = this.memos.indexOf(memo)
       this.memos.splice(ind, 1)
-      this.$root.removeMemos()
+      this.removeMemo(memo)
     },
     dragStart(dragMemo) {
       targetMemo = dragMemo
@@ -111,6 +111,12 @@ const Area = {
       }).then(r=>r.json())
       Object.assign(m, updated)
       this.$parent.notify(`Saved. ${m.title}`)
+    },
+    async removeMemo(m){
+      const res = await fetch(`${ENDPOINT}${m.id}`, {
+        method:'DELETE'
+      }).then(r=>r.json())
+      this.$root.notify('Removed ' + m.title)
     }
   }
 }
