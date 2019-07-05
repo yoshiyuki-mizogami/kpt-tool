@@ -1,5 +1,6 @@
 let targetMemo = null
 let targetMemoList = null
+const JSONHEADER = {'Content-Type':'application/json'}
 const ENDPOINT = '/api/memos/'
 const Area = {
   template: '#areaTemplate',
@@ -105,6 +106,7 @@ const Area = {
     async saveMemo(m){
       const updated = await fetch(`${ENDPOINT}${m.id}`,{
         method:'PUT',
+        headers:JSONHEADER,
         body:JSON.stringify(m)
       }).then(r=>r.json())
       Object.assign(m, updated)
