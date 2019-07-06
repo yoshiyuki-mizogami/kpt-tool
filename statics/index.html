@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="lib/vue.js"></script>
@@ -17,33 +18,54 @@
       <my-area class-name="karea" :memos="kMemos" char="K" :limit="MEMO_LIMIT"></my-area>
       <my-area class-name="parea" :memos="pMemos" char="P" :limit="18"></my-area>
     </div>
-    <my-area class-name="tarea" :memos="tMemos" char="T" :limit="36"><span class="cBtn">C</span></my-area>
+    <my-area class-name="tarea" :memos="tMemos" char="T" :limit="36"></my-area>
     <transition name="notify">
       <div v-if="notificationVisible" class="notifycation">{{message}}</div>
     </transition>
-    <my-area class-name="carea" :memos="cMemos" char="C" :limit="0" :complete="true"></my-area>
+    <complete-area class-name="carea" :memos="cMemos" char="C" :limit="0"></complete-area>
   </div>
   <div id="areaTemplate" class="template">
     <section :class="className" @drop="dropMemo">
-      <span @click="addMemo" @selectstart.prevent>{{char}}</span><slot></slot>
+      <span @click="addMemo" @selectstart.prevent>{{char}}</span>
       <div class="memos">
         <div class="memo" draggable="true" v-for="m in memos" @click="showEditor(m)" @dragstart="dragStart(m)">
-          <button class="removeBtn" @click.stop="confirmRemoveMemo(m)">×</button>
+          <button class="removeBtn" @click.stop="sendComplete(m)">×</button>
           {{m.title}}
         </div>
       </div>
-      <memo-editor ref="editor" :memos="memos" :char="char" :complete="complete"></memo-editor>
+      <memo-editor ref="editor" :memos="memos" :char="char"></memo-editor>
       <transition name="fade">
         <div class="cover" v-show="covered">
-            <div class="spinner"></div>
+          <div class="spinner"></div>
         </div>
       </transition>
+    </section>
+  </div>
+  <div id="completeAreaTemplate" class="template">
+    <section class="careaWrap" :drawn="drawn">
+      <span class="char" @click="toggleDraw">{{char}}</span>
+      <section :class="className">
+        <span>&nbsp;</span>
+        <div class="memos">
+          <div class="memo" draggable="true" v-for="m in memos" @click="showEditor(m)" @dragstart="dragStart(m)">
+            <button class="removeBtn" @click.stop="confirmRemoveMemo(m)">×</button>
+            {{m.title}}
+          </div>
+        </div>
+        <memo-editor ref="editor" :memos="memos" :char="char" :complete="true"></memo-editor>
+        <transition name="fade">
+          <div class="cover" v-show="covered">
+            <div class="spinner"></div>
+          </div>
+        </transition>
+      </section>
     </section>
   </div>
   <div id="editorTemplate" class="template">
     <div class="memoEditor" v-if="editTarget">
       <button class="removeBtn" @click="hideEditor">×</button>
       <input class="memoTitle" type="text" @change="update"
+        :readonly="complete"
         ref="title"
         placeholder="メモタイトル"
         v-model="editTarget.title"
@@ -51,10 +73,12 @@
         @keydown.ctrl.left="movePreviousMemo"
         @keydown.ctrl.right="moveNextMemo">
       <textarea class="memoBody" ref="editor" @change="update" v-model="editTarget.body"
+        :readonly="complete"
         @keydown.esc="escape"
         @keydown.ctrl.left="movePreviousMemo"
         @keydown.ctrl.right="moveNextMemo"></textarea>
       <input class="memoCharge" placeholder="担当者" type="text" v-model="editTarget.charge"
+        :readonly="complete"
         @keydown.esc="escape"
         @keydown.ctrl.left="movePreviousMemo"
         @keydown.ctrl.right="moveNextMemo">

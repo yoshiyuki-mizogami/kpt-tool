@@ -11,7 +11,9 @@ ex()
     res.end(readFileSync(join(__dirname, 'statics', 'app', 'index.html'), 'utf8'))
   })
   .get('/api/memos', async (req, res)=>{
-    const allMemos = await Memo.findAll()
+    const allMemos = await Memo.findAll({
+      order:[['createdAt', 'ASC']]
+    })
     res.json(allMemos)
   })
   .get('/api/memos/:memoId', async(req, res)=>{

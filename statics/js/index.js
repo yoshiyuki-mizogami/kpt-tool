@@ -35,9 +35,6 @@ new Vue({
     })
     evHub.$emit('uncover')
   },
-  components: {
-    MyArea: Area
-  },
   methods:{
     notify(m) {
       clearTimeout(this.ev)
