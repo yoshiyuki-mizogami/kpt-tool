@@ -1,5 +1,4 @@
 const ex = require('express')
-const {IpFilter,IpDeniedError} = require('express-ipfilter')
 const PORT = process.env.PORT || 5000
 const {join} = require('path')
 const net = require('net')
@@ -14,16 +13,11 @@ if(allowIPList){
   const ips = allowIPList.split(';')
     .filter(ip=>net.isIPv4(ip))
   if(ips.length){
-    app.use(IpFilter(ips, {mode:'allow'}))
-      .use((err, req, res, _next)=>{
-        if (err instanceof IpDeniedError) {
-          res.status(401)
-        } else {
-          res.status(err.status || 500)
-        }
-     
-        res.end('You shall not pass ' + JSON.stringify(err) + ' ' + req.connection.remoteAddress)
-      })
+    app.use((req, res, next)=>{
+      const xForwardFor = req.header('x-forwarded-for')
+      res.status(401)
+      res.end('You shall not pass ' + xForwardFor)
+    })
   }
 }
 
