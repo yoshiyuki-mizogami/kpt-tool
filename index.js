@@ -15,8 +15,12 @@ if(allowIPList){
   if(ips.length){
     app.use((req, res, next)=>{
       const xForwardFor = req.header('x-forwarded-for')
-      res.status(401)
-      res.end('You shall not pass ' + xForwardFor)
+      if(!ips.includes(xForwardFor)){
+        res.status(401)
+        res.end('You shall not pass ' + xForwardFor)
+        return
+      }
+      next()
     })
   }
 }
