@@ -1,18 +1,18 @@
 const ex = require('express')
-const {IpFilter,IpDeniedError} = require('express-ipfilter')
+const {IpFilter} = require('express-ipfilter')
 const PORT = process.env.PORT || 5000
 const {join} = require('path')
 const net = require('net')
-const {readFileSync,existsSync} = require('fs')
+const {readFileSync} = require('fs')
 const Memo = require('./lib/memo')
 
-const allowIPList = join(__dirname, 'allow-ip-list')
+const allowIPList = process.env.ALLOW_IP_LIST || ''
 
 const app = ex()
 
-if(existsSync(allowIPList)){
-  const ips = readFileSync(allowIPList, 'utf8').split(/\r?\n/)
-    .filter(line=>net.isIPv4(line))
+if(allowIPList){
+  const ips = allowIPsplit.split(';')
+    .filter(ip=>net.isIPv4(ip))
   if(ips.length){
     app.use(IpFilter(ips, {mode:'allow'}))
       .use((err, req, res, _next)=>{
