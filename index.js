@@ -1,5 +1,5 @@
 const ex = require('express')
-const {IpFilter} = require('express-ipfilter')
+const {IpFilter,IpDeniedError} = require('express-ipfilter')
 const PORT = process.env.PORT || 5000
 const {join} = require('path')
 const net = require('net')
@@ -16,10 +16,13 @@ if(allowIPList){
   if(ips.length){
     app.use(IpFilter(ips, {mode:'allow'}))
       .use((err, req, res, _next)=>{
-        if(err){
+        if (err instanceof IpDeniedError) {
           res.status(401)
-          return res.end('You shall not pass.')
+        } else {
+          res.status(err.status || 500)
         }
+     
+        res.end('You shall not pass')
       })
   }
 }
