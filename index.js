@@ -11,7 +11,7 @@ const allowIPList = process.env.ALLOW_IP_LIST || ''
 const app = ex()
 
 if(allowIPList){
-  const ips = allowIPsplit.split(';')
+  const ips = allowIPList.split(';')
     .filter(ip=>net.isIPv4(ip))
   if(ips.length){
     app.use(IpFilter(ips, {mode:'allow'}))
