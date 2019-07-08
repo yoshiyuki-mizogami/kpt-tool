@@ -22,7 +22,7 @@ if(allowIPList){
           res.status(err.status || 500)
         }
      
-        res.end('You shall not pass')
+        res.end('You shall not pass ' + JSON.stringify(err) + ' ' + req.connection.remoteAddress)
       })
   }
 }
