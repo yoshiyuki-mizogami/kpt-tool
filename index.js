@@ -16,8 +16,10 @@ if(allowIPList){
   if(ips.length){
     app.use(IpFilter(ips, {mode:'allow'}))
       .use((err, req, res, _next)=>{
-        res.status(401)
-        res.end('You shall not pass.')
+        if(err){
+          res.status(401)
+          return res.end('You shall not pass.')
+        }
       })
   }
 }
