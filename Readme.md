@@ -1,5 +1,10 @@
 # KPT tool
 
+## pgの初期設定
+```sh
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
 ## 許可IPの設定
 `ALLOW_IP_LIST`変数に、対象IPを;で区切って入力
 
