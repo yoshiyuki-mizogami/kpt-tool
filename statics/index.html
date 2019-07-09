@@ -23,6 +23,27 @@
       <div v-if="notificationVisible" class="notifycation">{{message}}</div>
     </transition>
     <complete-area class-name="carea" :memos="cMemos" char="C" :limit="0"></complete-area>
+    <transition name="fade">
+      <div v-if="shownManual" class="manualWrap">
+        <div class="manual">
+          <h1>KPT-Tool マニュアル</h1>
+          <p>
+            <ul>
+              <li>KPT、各文字クリックで新規メモ作成</li>
+              <li>CはCompleteのメモ。KPTのxをクリックでCへ移動</li>
+              <li>メモの表示順は作成順</li>
+              <li>Drag&DropでKPTのエリアを移動可能</li>
+              <li>Cのメモのxクリックで削除(確認あり)</li>
+              <li>CへはDrag&Drop不可だが、Cからは可能(戻せる)</li>
+              <li>メモをクリックで詳細の編集画面(Cでは変更不可)</li>
+              <li>詳細の編集画面でCtrl+カーソルキー左右でメモの移動、Escで編集画面クローズ</li>
+              <li>メモを編集した場合、自動で保存される</li>
+              <li>このマニュアルは再度F1でクローズ</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </transition>
   </div>
   <div id="areaTemplate" class="template">
     <section :class="className" @drop="dropMemo">

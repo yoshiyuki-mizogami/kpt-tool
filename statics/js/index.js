@@ -6,6 +6,7 @@ const evHub = new Vue()
 new Vue({
   el: '#app',
   data: {
+    shownManual:false,
     kMemos: [],
     pMemos: [],
     tMemos: [],
@@ -17,6 +18,14 @@ new Vue({
     ev:null
   },
   async created() {
+    document.documentElement.addEventListener('keydown', ev=>{
+      const {key} = ev
+      console.log(key)
+      if(key === 'F1'){
+        ev.preventDefault()
+        this.shownManual = !this.shownManual
+      }
+    })
     const memoNames = {
       K:'kMemos',
       P:'pMemos',
