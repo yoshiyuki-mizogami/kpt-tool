@@ -136,12 +136,13 @@ section {
   top:0;
   height:100%;
   width:calc(25vw + 50px);
-  transition:left .2s ease;
+  transition:left .5s ease;
 }
 .careaWrap[drawn]{
   left:calc(75vw - 50px);
 }
 .careaWrap .char{
+  transition:transform .5s ease;
   display:inline-block;
   position:absolute;
   left:0;

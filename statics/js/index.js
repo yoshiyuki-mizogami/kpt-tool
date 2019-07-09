@@ -33,7 +33,7 @@ new Vue({
       C:'cMemos'
     }
     const response = await fetch('/api/memos')
-      .then(r => r.json())
+      .then(r => r.json()).catch(e=>[])
     response.forEach(m=>{
       const memoName = memoNames[m.belong]
       if(!memoName){
