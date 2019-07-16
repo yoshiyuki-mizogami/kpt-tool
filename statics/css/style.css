@@ -297,6 +297,7 @@ section {
   height:80vh;
   background-color:white;
   padding:30px;
+  overflow-y:scroll;
 }
 .manual h1{
   border-bottom:solid 1px gray;
